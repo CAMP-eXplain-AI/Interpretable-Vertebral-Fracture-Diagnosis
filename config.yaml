@@ -1,0 +1,42 @@
+# Weights & Biases
+USE_WANDB: True #@param {type:"boolean"}
+WANDB_API_KEY: 'REPLACE_ME' #@param {type:"string"}
+
+# Data
+DATASET_PATH: 'REPLACE_ME' #@param {type:"string"}
+MIN_VERTEBRAE_LEVEL: 8 #@param {type:"number"}
+INPUT_DIM: 3 #@param [2, 3] {allow-input: true}
+INPUT_SIZE: 64 #@param {type:"slider", min:32, max:112, step:4}
+
+OVERSAMPLING: True
+FOLD: 1
+
+# Mask
+# one of 'none', 'channel' (mask is additional input channel), 'apply' (single vertebra mask is applied to input),
+# 'apply_all' (visible vertebra mask applied to input), 'crop' (mask is used to crop input)
+MASK: 'none'
+
+# Whether to save the best-performing model (wrt validation F1)
+SAVE_MODEL: False
+
+# Data Augmentation
+TRANSFORMS: ['modelsgenesis', 'intensity', 'spatial3d-simple']
+
+# Task
+TASK: "detection" # "detection", "grading", "simple_grading"
+LOSS: 'binary_cross_entropy' # "ordinal_regression", "cross_entropy", "focal"
+
+# Model
+BATCH_SIZE: 16 #@param {type:"slider", min:32, max:512, step:32}
+LEARNING_RATE: 0.001 #@param {type:"number"}
+# AUTO_LR_FIND = True #@param {type: 'boolean'}
+DROPOUT: 0.3 #@param {type:"number"}
+WEIGHTED_LOSS: True #@param {type:"boolean"}
+EARLY_STOPPING_PATIENCE: 40 #@param {type:"number"}
+
+# Available backbones: 
+#   - UNet3D
+MODEL_NAME: 'UNet3D'
+
+# Identify all modules to freeze by name, e.g. ['down_tr64', 'down_tr128', 'down_tr256', 'down_tr512'] for UNet3D
+FROZEN_LAYERS: []
